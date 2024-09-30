@@ -23,7 +23,7 @@ const Login = () => {
       /[@$!%*?&]+/,
       "Şifre en az bir özel karakter (@$!%*?&) içermelidir"
     ),
-    email: string().email("Lütfen geçerli email giriniz").required(),
+    email: string().email("Lütfen geçerli email giriniz").required("Email zorunludur"),
   })
 
   return (
