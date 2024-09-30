@@ -9,12 +9,18 @@ import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
 import { Button } from "@mui/material"
 import { Formik,Form } from "formik";
+import { object, string} from 'yup';
+
+
 
 
 const Login = () => {
 
+  const loginSchema = object({
+    password: string().required().min(8).max(16),
+    email: string().email("Lütfen geçerli email giriniz").required(),
+  })
 
-const loginSchema = {}
   return (
     <Container maxWidth="lg">
       <Grid
@@ -56,18 +62,18 @@ const loginSchema = {}
          initialValues={{email:"", password:""}}
          validationSchema={loginSchema}
          onSubmit={(values,actions)=> {
-
-
           //? POST (Login)
            //? Formu Temizleme
           //? Meaj(Toast)
           //? Routing(stock)
           //? Global State Güncellemesi
-
+          actions.resetForm()
+          actions.setSubmiting(false) //? isSubmiting (Boolean)
           console.log(values)
+          console.log(actions)
          }}
          >
-         { ()=> (
+         { ({isSubmitting, handleChange, values, touched, errors})=> (
           <Form>
           <Box
           
@@ -79,6 +85,10 @@ const loginSchema = {}
             id="email"
             type="email"
             variant="outlined"
+            onChange={handleChange}
+            value={values.email}
+            error={touched.email && Boolean(errors.email) }
+            helperText={errors.email}
           />
           <TextField
             label="password"
@@ -86,8 +96,13 @@ const loginSchema = {}
             id="password"
             type="password"
             variant="outlined"
+            onChange={handleChange}
+            value={values.password}
+            error={touched.password && errors.password }
+            helperText={errors.password}
+
           />
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" disabled={isSubmitting}>
             Submit
           </Button>
         </Box>
