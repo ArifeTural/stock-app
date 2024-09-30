@@ -73,7 +73,7 @@ const Login = () => {
           console.log(actions)
          }}
          >
-         { ({isSubmitting, handleChange, values, touched, errors})=> (
+         { ({isSubmitting, handleChange, handleBlur, values, touched, errors})=> (
           <Form>
           <Box
           
@@ -88,7 +88,8 @@ const Login = () => {
             onChange={handleChange}
             value={values.email}
             error={touched.email && Boolean(errors.email) }
-            helperText={errors.email}
+            onBlur={handleBlur}
+            helperText={touched.email && errors.email}
           />
           <TextField
             label="password"
@@ -98,8 +99,9 @@ const Login = () => {
             variant="outlined"
             onChange={handleChange}
             value={values.password}
-            error={touched.password && errors.password }
-            helperText={errors.password}
+            error={touched.password && Boolean(errors.password)}
+            onBlur={handleBlur}
+            helperText={touched.password && errors.password}
 
           />
           <Button variant="contained" type="submit" disabled={isSubmitting}>
