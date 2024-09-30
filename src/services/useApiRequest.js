@@ -10,7 +10,7 @@ const useApiRequest = () => {
   const navigate = useNavigate()
 
   const login = async (userData) => {
-      const BASE_URL = "https://17135.fullstack.clarusway.com"
+      // const BASE_URL = "https://17135.fullstack.clarusway.com"
 
     dispatch(fetchStart())
     try {
