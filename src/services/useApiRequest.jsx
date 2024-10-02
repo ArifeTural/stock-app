@@ -1,16 +1,16 @@
 import axios from "axios"
 import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify"
-import { fetchFail, fetchStart, loginSuccess } from "../features/authSlice"
-import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { fetchFail, fetchStart, loginSuccess } from "../features/authSlice"
 
-//?Custom hook
-const useApiRequest = () => {
-  const dispatch = useDispatch()
+//? Custom hook
+const useApiRequests = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const login = async (userData) => {
-      // const BASE_URL = "https://17135.fullstack.clarusway.com"
+    // const BASE_URL = "https://17135.fullstack.clarusway.com"
 
     dispatch(fetchStart())
     try {
@@ -18,20 +18,25 @@ const useApiRequest = () => {
         `${process.env.REACT_APP_BASE_URL}/auth/login`,
         userData
       )
-      dispatch(loginSuccess(data))
       toastSuccessNotify("Login işlemi başarılı")
-      navigate("/stock")
+      dispatch(loginSuccess(data))
+      navigate("stock")
+      console.log(data)
     } catch (error) {
+      toastErrorNotify("Login işlemi başarısız")
       dispatch(fetchFail())
-      toastErrorNotify("Login başarısız oldu")
       console.log(error)
     }
   }
 
-  const register = async () => {}
+  const register = async (userData) => {}
+
+
   const logout = async () => {}
 
-  return { login, register, logout }
+
+
+  return { login, register }
 }
 
-export default useApiRequest
+export default useApiRequests
